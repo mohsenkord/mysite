@@ -2,14 +2,15 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    description = models.TextField()
-    image = models.ImageField(upload_to='uploads/categories/')
+    description = models.TextField(null=True, )
+    image = models.ImageField(upload_to='uploads/categories/', null=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    posts_count = models.IntegerField(default=0)
+    posts_count = models.IntegerField(default=0, null=True)
 
     def __str__(self):
         return self.name
@@ -18,9 +19,9 @@ class Category(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    description = models.TextField()
-    color = models.CharField(max_length=7)
-    image = models.ImageField(upload_to='uploads/tags/')
+    description = models.TextField(null=True)
+    color = models.CharField(max_length=7, null=True)
+    image = models.ImageField(upload_to='uploads/tags/', null=True)
     posts_count = models.IntegerField(default=0)
 
     def __str__(self):
@@ -34,8 +35,8 @@ class Post(models.Model):
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    content = models.TextField()
-    excerpt = models.TextField()
+    content = models.TextField(null=True)
+    excerpt = models.TextField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category)
     tags = models.ManyToManyField(Tag)
@@ -43,7 +44,7 @@ class Post(models.Model):
     publish_time = models.TimeField()
     last_updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=StatusChoices, default=StatusChoices.PUBLISHED)
-    image = models.ImageField(upload_to='uploads/posts/')
+    image = models.ImageField(upload_to='uploads/posts/', null=True)
     views = models.IntegerField(default=0)
     comments_count = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
