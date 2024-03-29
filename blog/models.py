@@ -40,6 +40,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category)
     tags = models.ManyToManyField(Tag)
+    created_at = models.DateTimeField(auto_now_add=True)
     publish_date = models.DateField()
     publish_time = models.TimeField()
     last_updated = models.DateTimeField(auto_now=True)
