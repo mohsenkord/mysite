@@ -8,9 +8,9 @@
 					<div class="row d-flex align-items-center justify-content-center">
 						<div class="about-content col-lg-12">
 							<h1 class="text-white">
-								Blog Details Page				
+								{{ object.title }}				
 							</h1>	
-							<p class="text-white link-nav"><a href="../website/index.html">Home </a>  <span class="lnr lnr-arrow-right"></span><a href="blog-home.html">Blog </a> <span class="lnr lnr-arrow-right"></span> <a href="{% url 'blog:single-blog' pk=object.pk %}"> Blog Details Page</a></p>
+							<p class="text-white link-nav"><a href="{% url 'website:index' %}">Home </a>  <span class="lnr lnr-arrow-right"></span><a href="{% url 'blog:index' %}">Blog </a> <span class="lnr lnr-arrow-right"></span> <a href="{% url 'blog:single-blog' pk=object.pk %}"> {{ object.title }}</a></p>
 						</div>	
 					</div>
 				</div>
@@ -31,7 +31,7 @@
 								<div class="col-lg-3  col-md-3 meta-details">
 									<ul class="tags">
 										{% for tag in object.tags.all %}
-                                        <li><a href="#">{{ tag.name }},</a></li>
+                                        <li><a href="#">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}</li>
                                         {% endfor %}
 									</ul>
 									<div class="user-details row">
@@ -58,27 +58,6 @@
 									<p>
 										Boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower to actually sit through a self-imposed MCSE training. who has the willpower to actually sit through a self-imposed
 									</p>
-								</div>
-								<div class="col-lg-12">
-									<div class="quotes">
-										MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower to actually sit through a self-imposed MCSE training.										
-									</div>
-									<div class="row mt-30 mb-30">
-										<div class="col-6">
-											<img class="img-fluid" src="{% static 'img/blog/post-img1.jpg' %}" alt="">
-										</div>
-										<div class="col-6">
-											<img class="img-fluid" src="{% static 'img/blog/post-img2.jpg' %}" alt="">
-										</div>	
-										<div class="col-lg-12 mt-30">
-											<p>
-												MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.
-											</p>
-											<p>
-												MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.
-											</p>											
-										</div>									
-									</div>
 								</div>
 							</div>
 							<div class="navigation-area">
@@ -232,14 +211,14 @@
 						</div>
 						<div class="col-lg-4 sidebar-widgets">
 							<div class="widget-wrap">
+								<div class="widget-wrap">
 								<div class="single-sidebar-widget search-widget">
 									<form class="search-form" action="#">
-                                        <label>
-                                            <input placeholder="Search Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'" >
-                                        </label>
-                                        <button type="submit"><i class="fa fa-search"></i></button>
+			                            <input placeholder="Search Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'" >
+			                            <button type="submit"><i class="fa fa-search"></i></button>
 			                        </form>
 								</div>
+                                </div>
 								<div class="single-sidebar-widget user-info-widget">
 									<img src="{% static 'img/blog/user-info.png' %}" alt="">
 									<a href="#"><h4>Charlie Barber</h4></a>

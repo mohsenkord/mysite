@@ -50,6 +50,7 @@ class Post(models.Model):
     comments_count = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     shares = models.IntegerField(default=0)
+    ordering = ('-publish_date', '-publish_time')
 
     def __str__(self):
         return self.title

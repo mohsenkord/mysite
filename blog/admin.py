@@ -6,13 +6,13 @@ from .models import Post, Tag, Category
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'created_date', 'published_date')
-    list_filter = ('author', 'created_date', 'published_date')
+    list_display = ('title', 'author', 'created_at', 'publish_date')
+    list_filter = ('author', 'created_at', 'publish_date')
     search_fields = ('title', 'content')
     prepopulated_fields = {'slug': ('title',)}
-    raw_id_fields = ('tag',)
-    date_hierarchy = 'published_date'
-    ordering = ('-published_date',)
+    raw_id_fields = ('tags',)
+    date_hierarchy = 'publish_date'
+    ordering = ('-publish_date','-publish_time')
 
 
 @admin.register(Tag)
