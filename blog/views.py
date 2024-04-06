@@ -14,4 +14,3 @@ class BlogDetailView(generic.DetailView):
     model = Post
     template_name = 'blog/blog-single.html'
     pk_url_kwarg = 'pk'
-    query_pk_and_slug = True

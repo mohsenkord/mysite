@@ -152,11 +152,13 @@
 
                                 {% include 'blog/include/writer-blog.html' %}
 
-								{% include 'blog/include/popular-post.html' %}
-
+								{% load sidebar_tags %}
+                                {% latest_posts %}
+                                
                                 {% include 'blog/include/ads-blog.html' %}
                                 
-								{% include 'blog/include/post-category.html' %}
+                                
+                                {% post_category %}
                                 
 								{% include 'blog/include/newsletter.html' %}
                                 
