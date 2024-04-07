@@ -4,7 +4,7 @@
     <ul class="cat-list">
         {% for name,count in categories.items %}
         <li>
-            <a href="#" class="d-flex justify-content-between">
+            <a href="{% url 'blog:post_filter_category' category_slug=name.slug %}" class="d-flex justify-content-between">
                 <p>{{ name }}</p>
                 <p>{{ count }}</p>
             </a>
