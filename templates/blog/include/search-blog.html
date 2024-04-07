@@ -1,0 +1,10 @@
+{% load static %}
+<div class="widget-wrap">
+    <div class="single-sidebar-widget search-widget">
+        <form class="search-form" method="get">
+            <input placeholder="Search Posts" name="q" type="text" onfocus="this.placeholder = ''"
+                   onblur="this.placeholder = 'Search Posts'" value="{{ request.GET.q }}">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+</div>
