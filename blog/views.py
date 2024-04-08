@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Post, Category, Tag
-
 
 # Create your views here.
 class BlogListView(generic.ListView):
@@ -44,12 +44,16 @@ def post_filter(request, category_slug=None, tag_slug=None, author_username=None
 
 
 class PostSearchListView(generic.ListView):
-    model = Post
     template_name = 'blog/post-search.html'
+    model = Post
 
     def get_queryset(self):
-        name = self.kwargs.get('q', '')
+        name = self.request.GET.get('q', '')
         object_list = self.model.objects.filter(status='PU')
         if name:
-            object_list = object_list.filter(name__icontains=name)
+            object_list = object_list.filter(
+                Q(title__icontains=name) |
+                Q(context__icontains=name) |
+                Q(tags__icontains=name) |
+                Q(categories__icontains=name))
         return object_list
