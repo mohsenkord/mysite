@@ -82,7 +82,6 @@
         </div>
     </section>
     <!-- End top-category-widget Area -->
-
     {% if object_list %}
         <!-- Start post-content Area -->
         <section class="post-content-area">
@@ -126,91 +125,108 @@
                                 </div>
                             {% endfor %}
                         </div>
+
                         <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
+                            {% if is_paginated %}
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}" class="page-link"
+                                               aria-label="Previous">
 		                                    <span aria-hidden="true">
 		                                        <span class="lnr lnr-chevron-left"></span>
 		                                    </span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a href="#" class="page-link">01</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">02</a></li>
-                                <li class="page-item"><a href="#" class="page-link">03</a></li>
-                                <li class="page-item"><a href="#" class="page-link">04</a></li>
-                                <li class="page-item"><a href="#" class="page-link">09</a></li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% for i in paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                            <li class="page-item active">
+                                                <a class="page-link">{{ i }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item">
+                                                <a href="?q={{ request.GET.q }}&page={{ i }}" class="page-link">{{ i }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}" class="page-link"
+                                               aria-label="Next">
 		                                    <span aria-hidden="true">
 		                                        <span class="lnr lnr-chevron-right"></span>
 		                                    </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="col-lg-4 sidebar-widgets">
-                        <div class="widget-wrap">
+                                            </a>
+                                        </li>
 
-                            {% include 'blog/include/search-blog.html' %}
+                                    {% endif %}
+                                {% endif %}
+                                </ul>
 
-                            {% include 'blog/include/writer-blog.html' %}
+                                </nav>
+                                </div>
+                                <div class="col-lg-4 sidebar-widgets">
+                                    <div class="widget-wrap">
 
-                            {% load sidebar_tags %}
-                            {% latest_posts %}
+                                        {% include 'blog/include/search-blog.html' %}
 
-                            {% include 'blog/include/ads-blog.html' %}
+                                        {% include 'blog/include/writer-blog.html' %}
 
+                                        {% load sidebar_tags %}
+                                        {% latest_posts %}
 
-                            {% post_category %}
-
-                            {% include 'blog/include/newsletter.html' %}
-
-                            {% include 'blog/include/tag-cloud.html' %}
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End post-content Area -->
-    {% else %}
-        <!-- Start post-content Area -->
-        <section class="post-content-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 posts-list">
-                        <div class="single-post row">
-                            <div class="col-lg-9 col-md-9 ">
-                                <p>No results found ...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 sidebar-widgets">
-                        <div class="widget-wrap">
-
-                            {% include 'blog/include/search-blog.html' %}
-
-                            {% include 'blog/include/writer-blog.html' %}
-
-                            {% load sidebar_tags %}
-                            {% latest_posts %}
-
-                            {% include 'blog/include/ads-blog.html' %}
+                                        {% include 'blog/include/ads-blog.html' %}
 
 
-                            {% post_category %}
+                                        {% post_category %}
 
-                            {% include 'blog/include/newsletter.html' %}
+                                        {% include 'blog/include/newsletter.html' %}
 
-                            {% include 'blog/include/tag-cloud.html' %}
+                                        {% include 'blog/include/tag-cloud.html' %}
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End post-content Area -->
-    {% endif %}
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
+                                </section>
+                                <!-- End post-content Area -->
+{% else %}
+                                <!-- Start post-content Area -->
+                                <section class="post-content-area">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-8 posts-list">
+                                                <div class="single-post row">
+                                                    <div class="col-lg-9 col-md-9 ">
+                                                        <p>No results found ...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 sidebar-widgets">
+                                                <div class="widget-wrap">
+
+                                                    {% include 'blog/include/search-blog.html' %}
+
+                                                    {% include 'blog/include/writer-blog.html' %}
+
+                                                    {% load sidebar_tags %}
+                                                    {% latest_posts %}
+
+                                                    {% include 'blog/include/ads-blog.html' %}
+
+
+                                                    {% post_category %}
+
+                                                    {% include 'blog/include/newsletter.html' %}
+
+                                                    {% include 'blog/include/tag-cloud.html' %}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- End post-content Area -->
+{% endif %}
 {% endblock content %}
