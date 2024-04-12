@@ -12,7 +12,7 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     raw_id_fields = ('tags',)
     date_hierarchy = 'publish_date'
-    ordering = ('-publish_date','-publish_time')
+    ordering = ('-publish_date',)
 
 
 @admin.register(Tag)
