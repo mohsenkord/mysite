@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'robots',
+    "debug_toolbar",
 
     'website.apps.WebsiteConfig',
     'blog.apps.BlogConfig',
@@ -52,11 +53,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'mysite.urls'
 
+# sites framework
 SITE_ID = 2
+
+# robots.txt
+ROBOTS_USE_HOST = False
+ROBOTS_USE_SITEMAP = False
 
 TEMPLATES = [
     {
@@ -130,3 +137,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Debug toolbar
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
