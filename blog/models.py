@@ -2,13 +2,13 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    description = models.TextField(null=True, )
+    description = RichTextUploadingField(null=True)
     image = models.ImageField(upload_to='uploads/categories/', null=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     posts_count = models.IntegerField(default=0, null=True)
@@ -20,7 +20,7 @@ class Category(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    description = models.TextField(null=True)
+    description = RichTextUploadingField(null=True)
     color = models.CharField(max_length=7, null=True)
     image = models.ImageField(upload_to='uploads/tags/', null=True)
     posts_count = models.IntegerField(default=0)
@@ -36,8 +36,8 @@ class Post(models.Model):
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    content = models.TextField(null=True)
-    excerpt = models.TextField(null=True)
+    content = RichTextUploadingField(null=True)
+    excerpt = RichTextUploadingField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category)
     tags = models.ManyToManyField(Tag)

@@ -35,11 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'django.contrib.humanize',
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'robots',
-    "debug_toolbar",
+    'debug_toolbar',
+    'ckeditor',
+    'ckeditor_uploader',
 
     'website.apps.WebsiteConfig',
     'blog.apps.BlogConfig',
@@ -64,6 +67,8 @@ SITE_ID = 2
 # robots.txt
 ROBOTS_USE_HOST = False
 ROBOTS_USE_SITEMAP = False
+
+
 
 TEMPLATES = [
     {
@@ -129,6 +134,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT =  BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -142,3 +148,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+# CKEditor settings
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}
