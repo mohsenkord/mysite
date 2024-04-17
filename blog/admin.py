@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Tag, Category
+from .models import Post, Tag, Category, Comment
 
 
 # Register your models here.
@@ -25,3 +25,19 @@ class TagAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['author', 'post', 'created_at', 'status']
+    list_filter = ('status', 'created_at')
+    search_fields = ('author', 'content')
+    date_hierarchy = 'created_at'
+    ordering = ('status', 'created_at')
+    actions = ['approve_comments']
+
+    def has_add_permission(self, request):
+        return False
+
+    def approve_comments(self, request, queryset):
+        return queryset.update(status='PU')
+

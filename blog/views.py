@@ -1,10 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from .models import Post, Category, Tag
-
+from .models import Post, Category, Tag, Comment
+from .forms import CommentForm
 
 # Create your views here.
 class BlogListView(generic.ListView):
@@ -76,3 +77,17 @@ class PostSearchListView(generic.ListView):
             object_list = object_list.none()
         return object_list
 
+
+class CommentCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = 'blog/blog-single.html'
+    form_class = CommentForm
+    context_object_name = 'comment'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Post, pk=self.kwargs.get('pk'))
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)  # Save the comment but don't commit yet
+        self.object.post = self.get_object()  # Assign the comment to the current post
+        self.object.save()  # Now save the comment with the assigned post
+        return redirect('blog:single-blog', pk=self.object.post.pk)

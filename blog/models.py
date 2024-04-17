@@ -1,8 +1,10 @@
-from django.contrib.auth.models import User
-from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.db import models
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+
 
 # Create your models here.
 class Category(models.Model):
@@ -57,3 +59,30 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:single-blog', kwargs={'pk': self.id})
+
+
+class Comment(models.Model):
+    class StatusChoices(models.TextChoices):
+        PENDING = "PE", _("در انتظار تایید")
+        PUBLISHED = "PU", _("تائید شده")
+        REJECTED = "RE", _("رد شده")
+        SPAM = "SP", _("هرزنامه")
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=255)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=2, choices=StatusChoices, default=StatusChoices.PENDING)
+    def get_absolute_url(self):
+        return reverse('blog:single-blog', kwargs={'pk': self.post.id})
+
+    class Meta:
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['created_at']),
+        ]
+
+    def __str__(self):
+        return f'{self.post.title}'
