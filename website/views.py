@@ -29,6 +29,7 @@ class NewsletterView(generic.FormView):
     template_name = 'website/index.html'
     form_class = NewsletterForm
     success_url = '/'
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)

@@ -81,7 +81,6 @@ class PostSearchListView(generic.ListView):
 class CommentCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = 'blog/blog-single.html'
     form_class = CommentForm
-    context_object_name = 'comment'
 
     def get_object(self, queryset=None):
         return get_object_or_404(Post, pk=self.kwargs.get('pk'))
@@ -91,3 +90,11 @@ class CommentCreateView(LoginRequiredMixin, generic.CreateView):
         self.object.post = self.get_object()  # Assign the comment to the current post
         self.object.save()  # Now save the comment with the assigned post
         return redirect('blog:single-blog', pk=self.object.post.pk)
+
+
+class CommentListView(generic.ListView):
+    template_name = 'blog/blog-single.html'
+    model = Comment
+
+    def get_queryset(self):
+        return Comment.objects.filter(post_id=self.kwargs.get('pk')).filter(status='PU').order_by('-created_at')
