@@ -7,6 +7,7 @@ from django.views import generic
 from .models import Post, Category, Tag, Comment
 from .forms import CommentForm
 
+
 # Create your views here.
 class BlogListView(generic.ListView):
     template_name = 'blog/blog-home.html'
@@ -95,6 +96,14 @@ class CommentCreateView(LoginRequiredMixin, generic.CreateView):
 class CommentListView(generic.ListView):
     template_name = 'blog/blog-single.html'
     model = Comment
+    context_object_name = 'comments_list'
 
     def get_queryset(self):
-        return Comment.objects.filter(post_id=self.kwargs.get('pk')).filter(status='PU').order_by('-created_at')
+        post_pk = self.kwargs.get('pk')
+        if post_pk is not None:
+            # Efficiently fetch the post and filter comments
+            comment = Comment.objects.filter(post__pk=post_pk)
+            return comment.filter(status='PU').order_by('-created_at')
+        else:
+            # Handle case where no post ID is provided (optional)
+            return Comment.objects.none()
