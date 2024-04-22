@@ -38,8 +38,13 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-sm-6 col-6 header-top-left">
                     <ul>
-                        <li><a href="#">Visit Us</a></li>
-                        <li><a href="#">Buy Tickets</a></li>
+                        {% if request.user.is_authenticated %}
+                            <li><a href="#"> in as {{ request.user.username }}</a></li>
+                            <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                            <li><a href="{% url 'accounts:register' %}">Register</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="col-lg-6 col-sm-6 col-6 header-top-right">
@@ -120,8 +125,8 @@
                     </p>
                     <div>
                         <form
-                              action="{% url 'website:newsletter' %}"
-                              method="post" class="subscription relative">
+                                action="{% url 'website:newsletter' %}"
+                                method="post" class="subscription relative">
                             {% csrf_token %}
                             <div class="input-group d-flex flex-row">
                                 <label>
